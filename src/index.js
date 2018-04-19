@@ -29,7 +29,11 @@ export default (parameterRows, defaultGlobal = global) => {
 };
 
 const parameterisedTests = parameterRows => globalCb => (title, test) => {
-  parameterRows.forEach(params => globalCb(vsprintf(title, params), applyTestParams(params, test)));
+  parameterRows.forEach(params => {
+    if (!Array.isArray(params))
+      params = [params]
+    return globalCb(vsprintf(title, params), applyTestParams(params, test))
+  });
 };
 
 const applyTestParams = (params, test) => {
